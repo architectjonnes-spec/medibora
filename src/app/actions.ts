@@ -14,9 +14,9 @@ export async function getTriageRecommendations(
   try {
     const result = await generateTriageRecommendations({ symptoms });
     return result;
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error getting triage recommendations:", error);
-    // In a real app, you might want to log this error to a monitoring service
-    throw new Error("Failed to get triage recommendations from AI service.");
+    // Pass the specific error message back to the client
+    throw new Error(error.message || "Failed to get triage recommendations from AI service.");
   }
 }

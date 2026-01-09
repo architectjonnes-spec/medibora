@@ -55,11 +55,11 @@ export default function SymptomAnalyzer() {
     try {
       const response = await getTriageRecommendations(values.symptoms);
       setResult(response);
-    } catch (e) {
+    } catch (e: any) {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "An unexpected error occurred. Please try again.",
+        description: e.message || "An unexpected error occurred. Please try again.",
       });
     } finally {
       setIsLoading(false);
