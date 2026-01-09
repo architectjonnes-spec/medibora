@@ -7,7 +7,8 @@
  * - TriageOutput - The return type for the generateTriageRecommendations function.
  */
 
-import {ai} from '@/ai/genkit';
+import {genkit} from 'genkit';
+import {googleAI} from '@genkit-ai/google-genai';
 import {z} from 'genkit';
 
 const TriageInputSchema = z.object({
@@ -24,6 +25,17 @@ const TriageOutputSchema = z.object({
   disclaimer: z.string().describe('A disclaimer indicating that this is not a medical diagnosis.'),
 });
 export type TriageOutput = z.infer<typeof TriageOutputSchema>;
+
+// Initialize Genkit and the AI plugin directly in the server file.
+const ai = genkit({
+  plugins: [
+    googleAI({
+      apiKey: process.env.GEMINI_API_KEY,
+    }),
+  ],
+  model: 'googleai/gemini-2.5-flash',
+});
+
 
 export async function generateTriageRecommendations(input: TriageInput): Promise<TriageOutput> {
   return generateTriageRecommendationsFlow(input);
