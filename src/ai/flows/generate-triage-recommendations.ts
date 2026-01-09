@@ -1,7 +1,6 @@
-// src/ai/flows/generate-triage-recommendations.ts
 'use server';
 /**
- * @fileOverview Generates triage recommendations based on patient symptoms using an LLM and RAG with medical guidelines.
+ * @fileOverview Generates triage recommendations based on patient symptoms using an LLM.
  *
  * - generateTriageRecommendations - A function that takes patient symptoms as input and returns triage recommendations.
  * - TriageInput - The input type for the generateTriageRecommendations function.
@@ -34,24 +33,17 @@ const triagePrompt = ai.definePrompt({
   name: 'triagePrompt',
   input: {schema: TriageInputSchema},
   output: {schema: TriageOutputSchema},
-  prompt: `You are an AI assistant that provides triage recommendations based on patient symptoms and medical guidelines.
+  prompt: `You are an AI assistant for Medi bora, providing triage recommendations based on patient symptoms.
 
   Analyze the following symptoms:
-  {{symptoms}}
+  "{{{symptoms}}}"
 
-  Provide a structured response including possible conditions, red flags, recommended questions, and next steps.
-  Include a confidence level for your recommendations.
-  Add a disclaimer that this is not a medical diagnosis.
+  Provide a structured response including possible conditions, red flags, recommended questions for the clinician to ask, and next steps for the patient (e.g., tests, referrals, escalation).
+  Also, include a confidence level for your recommendations (low, medium, or high).
+  Finally, add a disclaimer that this is not a medical diagnosis and is for informational purposes only.
 
-  Format your response as a JSON object:
-  {
-    "possible_conditions": [],
-    "red_flags": [],
-    "recommended_questions": [],
-    "next_steps": [],
-    "confidence_level": "low | medium | high",
-    "disclaimer": "This is not a medical diagnosis"
-  }`,
+  Your entire response must be a single, valid JSON object that conforms to the output schema.
+  `,
 });
 
 const generateTriageRecommendationsFlow = ai.defineFlow(
