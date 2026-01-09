@@ -8,7 +8,7 @@ export default function Home() {
         <div className="container mx-auto flex items-center gap-3">
           <Stethoscope className="text-primary w-8 h-8" />
           <h1 className="text-2xl font-bold font-headline text-foreground">
-            TriageAssist AI
+            Medi bora
           </h1>
         </div>
       </header>
